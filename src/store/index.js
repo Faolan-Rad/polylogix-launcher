@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { /**createPersistedState, **/createSharedMutations } from "vuex-electron"
 import {ipcRenderer} from "electron"
-
-
 Vue.use(Vuex)
 
 const Store = new Vuex.Store({
@@ -18,8 +17,17 @@ const Store = new Vuex.Store({
       state.downloads.push("Example")
     }
   },
+  actions: {
+    addDownload(context){
+      context.commit('addDownload')
+    }
+  },
   modules: {
-  }
+  },
+  plugins: [
+    //createPersistedState(),
+    createSharedMutations()
+  ]
 })
 export default Store
 

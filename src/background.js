@@ -1,6 +1,6 @@
 'use strict'
 import child_process from 'child_process'
-import { app, protocol, BrowserWindow, ipcMain, dialog, Menu, Tray ,Notification} from 'electron'
+import { app, protocol, BrowserWindow, ipcMain, dialog, Menu, Tray ,Notification, desktopCapturer} from 'electron'
 import {autoUpdater} from 'electron-updater'
 import isDev from 'electron-is-dev'
 import path from 'path'
@@ -12,7 +12,6 @@ import {
 const isDevelopment = process.env.NODE_ENV !== "production";
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-
 import os from 'os'
 
 import {machineId} from 'node-machine-id';
@@ -82,6 +81,8 @@ function checkNeosDir() {
     }
   }
 }
+
+
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: "app", privileges: { secure: true, standard: true } },
@@ -138,8 +139,11 @@ app.on("activate", () => {
   if (win === null) {
     createWindow();
   }
-});
 
+
+
+});
+import store from "./store"
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -185,7 +189,6 @@ app.on("ready", async () => {
         }
       );
     });
-
     autoUpdater.on("update-not-available", () => {
       dialog.showMessageBox({
         title: "No Updates",
